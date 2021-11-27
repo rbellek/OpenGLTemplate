@@ -12,6 +12,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/imgui)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glad/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glew/include)
 
 #--- Find OpenGL
 find_package(OpenGL REQUIRED)
@@ -21,6 +22,8 @@ add_definitions(${OpenGL_DEFINITIONS})
 if(NOT OPENGL_FOUND)
     message(ERROR " OPENGL not found!")
 endif(NOT OPENGL_FOUND)
+
+target_link_libraries(${PROJECT_NAME} ${OpenGL_LIBRARY})
 
 set(imgui_SRC 
 "${CMAKE_SOURCE_DIR}/vendors/imgui/imconfig.h",
@@ -46,3 +49,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory("${CMAKE_SOURCE_DIR}/vendors/glfw")
 
 target_link_libraries(${PROJECT_NAME} glfw)
+
+link_directories(${OpenGL_LIBRARY_DIRS})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/vendors/glew/lib/Release/x64/glew32s.lib)
+target_link_libraries(${PROJECT_NAME} opengl32.lib)
