@@ -1,5 +1,9 @@
 #pragma once
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+
 #include <string>
 #include <stdint.h>
 
@@ -12,7 +16,7 @@ public:
 	bool Run();
 protected:
 	bool init();
-	void render();
+	virtual void render();
 private:
 	std::string m_title;
 	uint32_t m_width;
