@@ -12,7 +12,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/imgui)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glad/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glew/include)
+#target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glew/include)
 
 #--- Find OpenGL
 find_package(OpenGL REQUIRED)
@@ -26,15 +26,15 @@ else()
 endif(OPENGL_FOUND)
 
 #--- Find GLEW
-if(NOT WIN32)
-find_package(GLEW REQUIRED)
-if(GLEW_FOUND)
-include_directories(${GLEW_INCLUDE_DIRS})
-link_libraries(${GLEW_LIBRARIES})
-else()
-    message(ERROR "GLEW not found!")
-endif(GLEW_FOUND)
-endif()
+#if(NOT WIN32)
+#find_package(GLEW REQUIRED)
+#if(GLEW_FOUND)
+#include_directories(${GLEW_INCLUDE_DIRS})
+#link_libraries(${GLEW_LIBRARIES})
+#else()
+#    message(ERROR "GLEW not found!")
+#endif(GLEW_FOUND)
+#endif()
 
 
 set(imgui_SRC 
@@ -64,7 +64,7 @@ target_link_libraries(${PROJECT_NAME} glfw)
 
 link_directories(${OpenGL_LIBRARY_DIRS})
 if(WIN32)
-target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/vendors/glew/lib/Release/x64/glew32s.lib)
+# target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/vendors/glew/lib/Release/x64/glew32s.lib)
 target_link_libraries(${PROJECT_NAME} opengl32.lib)
 target_link_libraries(${PROJECT_NAME} glu32.lib)
 endif()

@@ -8,13 +8,11 @@ App::App(std::string title, uint32_t width, uint32_t height)
 	m_width(width),
 	m_height(height)
 {
+	init();
 }
 
 bool App::Run()
 {
-	if (!init())
-		return false;
-
 	const double fpsLimit = 1.0 / 60.0;
 	double lastUpdateTime = 0;  // number of seconds since the last loop
 	double lastFrameTime = 0;   // number of seconds since the last frame
@@ -57,7 +55,7 @@ bool App::init()
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
 	m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
@@ -70,10 +68,16 @@ bool App::init()
 	/* Make the window's context current */
 	glfwMakeContextCurrent(m_window);
 
-	glMatrixMode(GL_PROJECTION);
-	gluPerspective(45, 8. / 6, 1, 50);
-	gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
-	glMatrixMode(GL_MODELVIEW);
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return false;
+	}
+
+	//glMatrixMode(GL_PROJECTION);
+	//gluPerspective(45, 8. / 6, 1, 50);
+	//gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+	//glMatrixMode(GL_MODELVIEW);
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0, 1);

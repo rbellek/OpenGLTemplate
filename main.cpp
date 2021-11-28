@@ -30,13 +30,13 @@ public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
 		: App(title, width, height) {
 		m_vertexShader.load(R"(
-			#version 330 core
-			layout (location = 0) in vec3 aPos;
+#version 330 core
+layout (location = 0) in vec3 aPos;
 
-			void main()
-			{
-				gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-			}
+void main()
+{
+	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+}
 		)");
 
 		m_vertexShader.compile();
@@ -51,7 +51,7 @@ public:
 			} 
 		)");
 
-		m_fragShader.compile();
+		//m_fragShader.compile();
 	}
 	float rotate = 0.f;
 	Shader m_vertexShader, m_fragShader;

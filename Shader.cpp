@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 Shader::Shader()
 {
@@ -21,7 +21,8 @@ void Shader::compile()
 	unsigned int vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-	glShaderSource(vertexShader, 1, (const GLchar* const*)m_code.c_str(), NULL);
+	const char* src = m_code.c_str();
+	glShaderSource(vertexShader, 1, &src, NULL);
 	glCompileShader(vertexShader);
 }
 
