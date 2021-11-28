@@ -22,157 +22,87 @@
   SOFTWARE.
 */
 
-// OpenGL Simple Text Render Sample App
-
-//#include <iostream>
-//#include <GL/glut.h>
-//
-//#include <simpledrawtext.h>
-//
-//constexpr unsigned int windowWidth = 800, windowHeight = 600;
-//
-//GLfloat rotate = 0.f;
-//
-//static float vertices[] = 
-//{
-//  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,  1.f,
-//  1.f,  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,
-//  1.f,  1.f,  1.f,  1.f,  1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f,  1.f,
-// -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f, -1.f,
-// -1.f, -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f,
-// -1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f, -1.f,  1.f, -1.f, -1.f,  1.f 
-//};
-//
-//static float colors[] =
-//{
-//  1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f,
-//  1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f,
-//  0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
-//  0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f,
-//  0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f,
-//  1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f,
-//};
-//
-//SimpleDrawText sdt;
-//
-//void display()
-//{
-//  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//  glLoadIdentity();
-//  glRotatef(rotate, 1.f, 1.f, 0.f);
-//
-//  glVertexPointer(3, GL_FLOAT, 0, vertices);
-//  glColorPointer(3, GL_FLOAT, 0, colors);
-//
-//  glEnableClientState(GL_VERTEX_ARRAY);
-//  glEnableClientState(GL_COLOR_ARRAY);
-//
-//  glDrawArrays(GL_QUADS, 0, sizeof(vertices) / (sizeof(float) * 3));
-//
-//  sdt.drawText("Merhaba", 250, 550, 1, 0, 0);
-//  sdt.render();
-//
-//  glutSwapBuffers();
-//}
-//
-//void init()
-//{
-//  sdt.addText("Deneme");
-//  for (int i = 0; i < 10; i++)
-//    sdt.addText(std::to_string(i) + ". Naber? :D", 500 * i);
-//
-//  glMatrixMode(GL_PROJECTION);
-//  gluPerspective(45, 8. / 6, 1, 50);
-//  gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
-//  glMatrixMode(GL_MODELVIEW);
-//
-//  glEnable(GL_DEPTH_TEST);
-//  glClearColor(0, 0, 0, 1);
-//}
-//
-//void update(int value)
-//{
-//  constexpr unsigned int fps = 30;
-//  constexpr unsigned int delay = 1000 / fps;
-//  glutTimerFunc(delay, update, 0);
-//  rotate += 1;
-//  glutPostRedisplay();
-//}
-//
-//void processKeys(unsigned char key, int x, int y)
-//{
-//  switch (key)
-//  {
-//    case 27:
-//      exit(0);
-//      break;
-//    default:
-//      break;
-//  }
-//}
-//
-//int main(int argc, char** argv) {
-//  glutInit(&argc, argv);
-//  glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
-//  glutInitWindowSize(windowWidth, windowHeight);
-//  glutInitWindowPosition(windowWidth / 3, windowHeight / 3);
-//  glutCreateWindow("Draw simple text...");
-//  init();
-//  glutDisplayFunc(display);
-//  glutKeyboardFunc(processKeys);
-//  glutTimerFunc(10, update, 0);
-//  glutMainLoop();
-//  return 0;
-//}
-
-
-
 #include "App.h"
+#include "Shader.h"
 
 class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
 		: App(title, width, height) {
+		m_vertexShader.load(R"(
+			#version 330 core
+			layout (location = 0) in vec3 aPos;
 
+			void main()
+			{
+				gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+			}
+		)");
+
+		m_vertexShader.compile();
+
+		m_fragShader.load(R"(
+			#version 330 core
+			out vec4 FragColor;
+
+			void main()
+			{
+				FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+			} 
+		)");
+
+		m_fragShader.compile();
 	}
 	float rotate = 0.f;
+	Shader m_vertexShader, m_fragShader;
 protected:
 	virtual void render() override {
 
 
-		static float vertices[] =
-		{
-		  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,  1.f,
-		  1.f,  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,
-		  1.f,  1.f,  1.f,  1.f,  1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f,  1.f,
-		 -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f, -1.f,
-		 -1.f, -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f,
-		 -1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f, -1.f,  1.f, -1.f, -1.f,  1.f
+		//static float vertices[] =
+		//{
+		//  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,  1.f,
+		//  1.f,  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,
+		//  1.f,  1.f,  1.f,  1.f,  1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f,  1.f,
+		// -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f, -1.f,
+		// -1.f, -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f,
+		// -1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f, -1.f,  1.f, -1.f, -1.f,  1.f
+		//};
+
+		//static float colors[] =
+		//{
+		//  1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f,
+		//  1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f,
+		//  0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
+		//  0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f,
+		//  0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f,
+		//  1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f,
+		//};
+
+
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glLoadIdentity();
+		//glRotatef(rotate, 1.f, 1.f, 0.f);
+
+		//glVertexPointer(3, GL_FLOAT, 0, vertices);
+		//glColorPointer(3, GL_FLOAT, 0, colors);
+
+		//glEnableClientState(GL_VERTEX_ARRAY);
+		//glEnableClientState(GL_COLOR_ARRAY);
+
+		//glDrawArrays(GL_QUADS, 0, sizeof(vertices) / (sizeof(float) * 3));
+		//rotate += 1;
+
+		float vertices[] = {
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.0f,  0.5f, 0.0f
 		};
 
-		static float colors[] =
-		{
-		  1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f,
-		  1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f,
-		  0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
-		  0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f,
-		  0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f,
-		  1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f,
-		};
-
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
-		glRotatef(rotate, 1.f, 1.f, 0.f);
-
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
-		glColorPointer(3, GL_FLOAT, 0, colors);
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_COLOR_ARRAY);
-
-		glDrawArrays(GL_QUADS, 0, sizeof(vertices) / (sizeof(float) * 3));
-		rotate += 1;
+		unsigned int VBO;
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	}
 };
 
