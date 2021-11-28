@@ -135,9 +135,10 @@ public:
 		: App(title, width, height) {
 
 	}
+	float rotate = 0.f;
 protected:
 	virtual void render() override {
-		float rotate = 0.f;
+
 
 		static float vertices[] =
 		{
@@ -171,6 +172,7 @@ protected:
 		glEnableClientState(GL_COLOR_ARRAY);
 
 		glDrawArrays(GL_QUADS, 0, sizeof(vertices) / (sizeof(float) * 3));
+		rotate += 1;
 	}
 };
 

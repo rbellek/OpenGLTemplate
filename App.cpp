@@ -14,17 +14,34 @@ bool App::Run()
 {
 	if (!init())
 		return false;
+
+	const double fpsLimit = 1.0 / 60.0;
+	double lastUpdateTime = 0;  // number of seconds since the last loop
+	double lastFrameTime = 0;   // number of seconds since the last frame
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(m_window))
 	{
-		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
-		render();
-		/* Swap front and back buffers */
-		glfwSwapBuffers(m_window);
+		const double now = glfwGetTime();
+		double deltaTime = now - lastUpdateTime;
 
-		/* Poll for and process events */
-		glfwPollEvents();
+		if ((now - lastFrameTime) >= fpsLimit)
+		{
+			/* Render here */
+			glClear(GL_COLOR_BUFFER_BIT);
+			render();
+
+			/* Poll for and process events */
+			glfwPollEvents();
+
+			/* Swap front and back buffers */
+			glfwSwapBuffers(m_window);
+
+			// only set lastFrameTime when you actually draw something
+			lastFrameTime = now;
+		}
+		// set lastUpdateTime every iteration
+		lastUpdateTime = now;
 	}
 
 	glfwTerminate();
