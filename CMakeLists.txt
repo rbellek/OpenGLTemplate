@@ -16,14 +16,26 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/g
 
 #--- Find OpenGL
 find_package(OpenGL REQUIRED)
+if(OPENGL_FOUND)
 include_directories(${OpenGL_INCLUDE_DIRS})
 link_directories(${OpenGL_LIBRARY_DIRS})
 add_definitions(${OpenGL_DEFINITIONS})
-if(NOT OPENGL_FOUND)
+target_link_libraries(${PROJECT_NAME} ${OpenGL_LIBRARIES})
+else()
     message(ERROR " OPENGL not found!")
-endif(NOT OPENGL_FOUND)
+endif(OPENGL_FOUND)
 
-target_link_libraries(${PROJECT_NAME} ${OpenGL_LIBRARY})
+#--- Find GLEW
+if(NOT WIN32)
+find_package(GLEW REQUIRED)
+if(GLEW_FOUND)
+include_directories(${GLEW_INCLUDE_DIRS})
+link_libraries(${GLEW_LIBRARIES})
+else()
+    message(ERROR "GLEW not found!")
+endif(GLEW_FOUND)
+endif()
+
 
 set(imgui_SRC 
 "${CMAKE_SOURCE_DIR}/vendors/imgui/imconfig.h",
@@ -51,5 +63,7 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/vendors/glfw")
 target_link_libraries(${PROJECT_NAME} glfw)
 
 link_directories(${OpenGL_LIBRARY_DIRS})
+if(WIN32)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/vendors/glew/lib/Release/x64/glew32s.lib)
 target_link_libraries(${PROJECT_NAME} opengl32.lib)
+endif()
