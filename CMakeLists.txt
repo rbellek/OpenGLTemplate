@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.13)
 
 project(OpenGLTemplate)
 
-add_executable(${PROJECT_NAME} WIN32 main.cpp ${CMAKE_SOURCE_DIR}/simpledrawtext.h ${imgui_SRC})
+add_executable(${PROJECT_NAME} WIN32 main.cpp App.cpp App.h vendors/glad/src/glad.c)
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 if (CMAKE_GENERATOR MATCHES "Visual Studio")
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS /SUBSYSTEM:CONSOLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS /SUBSYSTEM:CONSOLE)
 endif()
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/)
