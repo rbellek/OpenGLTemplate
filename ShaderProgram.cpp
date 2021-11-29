@@ -1,5 +1,7 @@
 #include "ShaderProgram.h"
 
+#include <glad/glad.h>
+
 ShaderProgram::ShaderProgram()
 {
 	m_shaderProgram = glCreateProgram();

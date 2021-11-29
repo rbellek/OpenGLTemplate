@@ -1,5 +1,6 @@
 #include "Shader.h"
 
+#include <glad/glad.h>
 #include <iostream>
 
 std::vector<Shader> Shader::m_shaders;

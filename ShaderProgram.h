@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glad/glad.h>
 #include <iostream>
 
 #include "Shader.h"
@@ -19,6 +18,6 @@ public:
 	void use() const;
 
 private:
-	GLuint m_shaderProgram;
+	unsigned int m_shaderProgram;
 };
 

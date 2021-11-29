@@ -1,6 +1,5 @@
 #pragma once
 
-#include <glad/glad.h>
 #include <string>
 #include <vector>
 
@@ -13,7 +12,7 @@ public:
 	void load(std::string code);
 	void compile();
 	void use();
-	GLuint GetShader() const;
+	unsigned int GetShader() const;
 	static Shader CreateShader(const SHADER_TYPE type);
 private:
 	Shader(const SHADER_TYPE type);
@@ -21,6 +20,6 @@ private:
 
 	std::string m_code;
 	SHADER_TYPE m_type;
-	GLuint m_shader;
+	unsigned int m_shader;
 	static std::vector<Shader> m_shaders;
 };
