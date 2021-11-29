@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(OpenGLTemplate)
 
-add_executable(${PROJECT_NAME} WIN32 main.cpp App.cpp App.h Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp vendors/glad/src/glad.c)
+add_executable(${PROJECT_NAME} WIN32 main.cpp App.cpp App.h Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp VertexBuffer.h VertexBuffer.cpp vendors/glad/src/glad.c)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 if (CMAKE_GENERATOR MATCHES "Visual Studio")

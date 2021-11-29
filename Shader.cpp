@@ -43,3 +43,9 @@ GLuint Shader::GetShader() const
 {
 	return m_shader;
 }
+
+Shader Shader::CreateShader(const SHADER_TYPE type) {
+	Shader shader{ type };
+	m_shaders.push_back(shader);
+	return shader;
+}

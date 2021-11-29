@@ -14,11 +14,7 @@ public:
 	void compile();
 	void use();
 	GLuint GetShader() const;
-	static Shader CreateShader(const SHADER_TYPE type) {
-		Shader shader{ type };
-		m_shaders.push_back(shader);
-		return shader;
-	}
+	static Shader CreateShader(const SHADER_TYPE type);
 private:
 	Shader(const SHADER_TYPE type);
 	void destroy();
