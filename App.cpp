@@ -67,6 +67,12 @@ bool App::init()
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(m_window);
+	glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
+		{
+			// make sure the viewport matches the new window dimensions; note that width and 
+			// height will be significantly larger than specified on retina displays.
+			glViewport(0, 0, width, height);
+		});
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -79,7 +85,7 @@ bool App::init()
 	//gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
 	//glMatrixMode(GL_MODELVIEW);
 
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0, 1);
 
 	return true;
