@@ -4,7 +4,7 @@
 
 ## Build
 
-git clone https://github.com/rbellek/OpenGLTemplate.git
+git clone --recursive https://github.com/rbellek/OpenGLTemplate.git
 
 cd OpenGLTemplate
 
