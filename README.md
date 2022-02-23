@@ -1,13 +1,12 @@
-# Sample Application with Timing Func.
+# OpenGL Template Application
 ## Requirements
-- FreeGlut
 - CMake
 
 ## Build
 
-git clone https://github.com/rbellek/simpledrawtext.git
+git clone https://github.com/rbellek/OpenGLTemplate.git
 
-cd simpledrawtext/samples/sample1
+cd OpenGLTemplate
 
 mkdir build && cd build
 
