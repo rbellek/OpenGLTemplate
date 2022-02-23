@@ -27,6 +27,9 @@
 #include "ShaderProgram.h"
 #include "VertexBuffer.h"
 
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
+
 #include <iostream>
 
 unsigned int shaderProgram;
@@ -59,10 +62,10 @@ class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
 		: App(title, width, height) {
-        Shader& m_vertexShader = Shader::CreateShader(SHADER_TYPE::VERTEX);
-        Shader& m_fragShader = Shader::CreateShader(SHADER_TYPE::FRAGMENT);
+        Shader m_vertexShader = Shader::CreateShader(SHADER_TYPE::VERTEX);
+        Shader m_fragShader = Shader::CreateShader(SHADER_TYPE::FRAGMENT);
 		m_vertexShader.load(R"(
-            #version 330 core
+            #version 430 core
             layout (location = 0) in vec3 aPos;
 
             void main()
@@ -74,7 +77,7 @@ public:
 		m_vertexShader.compile();
 
 		m_fragShader.load(R"(
-			#version 330 core
+            #version 430 core
 			out vec4 FragColor;
 
 			void main()
@@ -103,48 +106,45 @@ protected:
 		m_vBuffer.draw();
         return;
 
-		//static float vertices[] =
-		//{
-		//  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,  1.f,
-		//  1.f,  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,
-		//  1.f,  1.f,  1.f,  1.f,  1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f,  1.f,
-		// -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f, -1.f,
-		// -1.f, -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f,
-		// -1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f, -1.f,  1.f, -1.f, -1.f,  1.f
-		//};
+        //static float vertices[] =
+        //{
+        //  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,  1.f,
+        //  1.f,  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,
+        //  1.f,  1.f,  1.f,  1.f,  1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f,  1.f,
+        // -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f, -1.f,
+        // -1.f, -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f,
+        // -1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f, -1.f,  1.f, -1.f, -1.f,  1.f
+        //};
 
-		//static float colors[] =
-		//{
-		//  1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f,
-		//  1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f,
-		//  0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
-		//  0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f,
-		//  0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f,
-		//  1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f,
-		//};
-
-
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glLoadIdentity();
-		//glRotatef(rotate, 1.f, 1.f, 0.f);
-
-		//glVertexPointer(3, GL_FLOAT, 0, vertices);
-		//glColorPointer(3, GL_FLOAT, 0, colors);
-
-		//glEnableClientState(GL_VERTEX_ARRAY);
-		//glEnableClientState(GL_COLOR_ARRAY);
-
-		//glDrawArrays(GL_QUADS, 0, sizeof(vertices) / (sizeof(float) * 3));
-		//rotate += 1;
+        //static float colors[] =
+        //{
+        //  1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f,
+        //  1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f,
+        //  0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
+        //  0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f,
+        //  0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f,
+        //  1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f,
+        //};
 
 
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glLoadIdentity();
+        //glRotatef(rotate, 1.f, 1.f, 0.f);
 
+        //glVertexPointer(3, GL_FLOAT, 0, vertices);
+        //glColorPointer(3, GL_FLOAT, 0, colors);
+
+        //glEnableClientState(GL_VERTEX_ARRAY);
+        //glEnableClientState(GL_COLOR_ARRAY);
+
+        //glDrawArrays(GL_QUADS, 0, sizeof(vertices) / (sizeof(float) * 3));
+        //rotate += 1;
 	}
 };
 
 int main(void)
 {
-	CubeApp app("OpenGL Sample App", 800, 600);
+    CubeApp app("OpenGL Sample App", SCR_WIDTH, SCR_HEIGHT);
 	app.Run();
 
 	return 0;

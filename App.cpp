@@ -6,9 +6,9 @@
 
 App::App(std::string title, uint32_t width, uint32_t height)
 	: m_title(title),
-	m_window(nullptr),
 	m_width(width),
-	m_height(height)
+    m_height(height),
+    m_window(nullptr)
 {
 	init();
 }
@@ -16,14 +16,14 @@ App::App(std::string title, uint32_t width, uint32_t height)
 bool App::Run()
 {
 	const double fpsLimit = 1.0 / 60.0;
-	double lastUpdateTime = 0;  // number of seconds since the last loop
+    //double lastUpdateTime = 0;  // number of seconds since the last loop
 	double lastFrameTime = 0;   // number of seconds since the last frame
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(m_window))
 	{
 		const double now = glfwGetTime();
-		double deltaTime = now - lastUpdateTime;
+        //double deltaTime = now - lastUpdateTime;
 
 		if ((now - lastFrameTime) >= fpsLimit)
 		{
@@ -42,7 +42,7 @@ bool App::Run()
 			lastFrameTime = now;
 		}
 		// set lastUpdateTime every iteration
-		lastUpdateTime = now;
+        //lastUpdateTime = now;
 	}
 
 	glfwTerminate();
@@ -83,12 +83,12 @@ bool App::init()
 		return false;
 	}
 
-	//glMatrixMode(GL_PROJECTION);
-	//gluPerspective(45, 8. / 6, 1, 50);
-	//gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
-	//glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_PROJECTION);
+    //gluPerspective(45, 8. / 6, 1, 50);
+    //gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+    //glMatrixMode(GL_MODELVIEW);
 
-	//glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0, 1);
 
 	return true;

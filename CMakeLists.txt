@@ -16,7 +16,10 @@ target_include_directories(OpenGLTemplate PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(OpenGLTemplate PRIVATE ${CMAKE_SOURCE_DIR}/vendors/)
 target_include_directories(OpenGLTemplate PRIVATE ${CMAKE_SOURCE_DIR}/vendors/imgui)
 target_include_directories(OpenGLTemplate PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glad/include)
+target_include_directories(OpenGLTemplate PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glm)
 #target_include_directories(OpenGLTemplate PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glew/include)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glm)
 
 #--- Find OpenGL
 find_package(OpenGL REQUIRED)
