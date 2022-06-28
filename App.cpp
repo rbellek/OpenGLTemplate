@@ -31,9 +31,10 @@ bool App::Run()
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 			render();
+			m_gui.render();
 
 			/* Poll for and process events */
-			glfwPollEvents();
+			//glfwPollEvents();
 
 			/* Swap front and back buffers */
 			glfwSwapBuffers(m_window);
@@ -45,19 +46,26 @@ bool App::Run()
         //lastUpdateTime = now;
 	}
 
+	glfwDestroyWindow(m_window);
 	glfwTerminate();
 
 	return true;
 }
 
+static void glfw_error_callback(int error, const char* description)
+{
+	fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+}
+
 bool App::init()
 {
+	glfwSetErrorCallback(glfw_error_callback);
 	/* Initialize the library */
 	if (!glfwInit())
 		return false;
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
@@ -89,6 +97,10 @@ bool App::init()
     //glMatrixMode(GL_MODELVIEW);
 
     //glEnable(GL_DEPTH_TEST);
+
+    // Main loop
+	m_gui.init(m_window);
+
 	glClearColor(0, 0, 0, 1);
 
 	return true;

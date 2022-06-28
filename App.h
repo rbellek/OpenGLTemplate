@@ -2,6 +2,7 @@
 
 #include <string>
 #include <stdint.h>
+#include "gui/gui.h"
 
 struct GLFWwindow;
 
@@ -18,5 +19,6 @@ private:
 	uint32_t m_width;
 	uint32_t m_height;
 	GLFWwindow* m_window;
+	GUI m_gui;
 };
 
