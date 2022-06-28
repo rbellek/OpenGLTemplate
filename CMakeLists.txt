@@ -80,3 +80,8 @@ if(WIN32)
 target_link_libraries(OpenGLTemplate opengl32.lib)
 target_link_libraries(OpenGLTemplate glu32.lib)
 endif()
+
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE) 
+
+add_subdirectory("${CMAKE_SOURCE_DIR}/vendors/assimp")
