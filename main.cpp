@@ -25,7 +25,6 @@
 #include "App.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
-#include "VertexBuffer.h"
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -45,18 +44,22 @@ float vertices[] = {
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-"}\n\0";
+const char* vertexShaderSource = R"(
+    #version 330 core
+    layout (location = 0) in vec3 aPos;
+    void main()
+    {
+        gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    }
+)";
+const char* fragmentShaderSource = R"(
+    #version 330 core
+    out vec4 FragColor;
+    void main()
+    {
+       FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+    }
+)";
 
 class CubeApp : public App {
 public:
@@ -91,54 +94,12 @@ public:
 		m_program.attachShader(m_vertexShader);
 		m_program.attachShader(m_fragShader);
 		m_program.link();
-
-		m_vBuffer.load(vertices, sizeof(vertices));
-		m_vBuffer.use();
 	}
 	float rotate = 0.f;
 	ShaderProgram m_program;
-	VertexBuffer m_vBuffer;
 protected:
 	virtual void render() override {
-        // draw our first triangle
-        //glUseProgram(shaderProgram);
         m_program.use();
-		m_vBuffer.draw();
-        return;
-
-        //static float vertices[] =
-        //{
-        //  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,  1.f,
-        //  1.f,  1.f,  1.f,  1.f, -1.f,  1.f,  1.f, -1.f, -1.f,  1.f,  1.f, -1.f,
-        //  1.f,  1.f,  1.f,  1.f,  1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f,  1.f,
-        // -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f, -1.f,
-        // -1.f, -1.f, -1.f, -1.f, -1.f,  1.f, -1.f,  1.f,  1.f, -1.f,  1.f, -1.f,
-        // -1.f, -1.f, -1.f,  1.f, -1.f, -1.f,  1.f, -1.f,  1.f, -1.f, -1.f,  1.f
-        //};
-
-        //static float colors[] =
-        //{
-        //  1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f,
-        //  1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f,
-        //  0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
-        //  0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f, 0.f, 1.f, 1.f,
-        //  0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f,
-        //  1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f, 0.f,
-        //};
-
-
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //glLoadIdentity();
-        //glRotatef(rotate, 1.f, 1.f, 0.f);
-
-        //glVertexPointer(3, GL_FLOAT, 0, vertices);
-        //glColorPointer(3, GL_FLOAT, 0, colors);
-
-        //glEnableClientState(GL_VERTEX_ARRAY);
-        //glEnableClientState(GL_COLOR_ARRAY);
-
-        //glDrawArrays(GL_QUADS, 0, sizeof(vertices) / (sizeof(float) * 3));
-        //rotate += 1;
 	}
 };
 

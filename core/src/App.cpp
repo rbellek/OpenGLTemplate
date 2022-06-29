@@ -4,10 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-
-#include <assimp/Importer.hpp>      // C++ importer interface
-#include <assimp/scene.h>           // Output data structure
-#include <assimp/postprocess.h>     // Post processing flags
+#include "Mesh.h"
 
 
 App::App(std::string title, uint32_t width, uint32_t height)
@@ -25,24 +22,8 @@ bool App::Run()
     //double lastUpdateTime = 0;  // number of seconds since the last loop
 	double lastFrameTime = 0;   // number of seconds since the last frame
 
-		// Create an instance of the Importer class
-	Assimp::Importer importer;
-
-	// And have it read the given file with some example postprocessing
-	// Usually - if speed is not the most important aspect for you - you'll
-	// probably to request more postprocessing than we do in this example.
-	const aiScene* scene = importer.ReadFile("assets/box.obj",
-		aiProcess_CalcTangentSpace |
-		aiProcess_Triangulate |
-		aiProcess_JoinIdenticalVertices |
-		aiProcess_SortByPType);
-
-	// If the import failed, report it
-	if (!scene) {
-		//DoTheErrorLogging(importer.GetErrorString());
-		return false;
-	}
-
+	Mesh m;
+	m.importFrom("assets/box.obj");
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(m_window))
@@ -56,10 +37,13 @@ bool App::Run()
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 			render();
-			m_gui.render();
+			m.render();
+
+			//vb.draw();
+			//m_gui.render();
 
 			/* Poll for and process events */
-			//glfwPollEvents();
+			glfwPollEvents();
 
 			/* Swap front and back buffers */
 			glfwSwapBuffers(m_window);
@@ -89,8 +73,8 @@ bool App::init()
 	if (!glfwInit())
 		return false;
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */

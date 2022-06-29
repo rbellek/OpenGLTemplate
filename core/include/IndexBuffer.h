@@ -1,18 +1,17 @@
 #pragma once
 
-class VertexBuffer
+class IndexBuffer
 {
 	friend class Mesh;
 private:
-	VertexBuffer();
+	IndexBuffer();
 public:
-	void load(float* vertices, size_t size);
+	void load(unsigned int* indices, size_t size);
 
 	void use();
 
 	void draw();
 private:
-	unsigned int m_VBO;
+	unsigned int m_IBO;
 	unsigned int m_VAO;
 };
-

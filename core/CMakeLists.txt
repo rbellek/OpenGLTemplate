@@ -3,14 +3,18 @@ cmake_minimum_required(VERSION 3.18)
 project(core)
 
 add_library(${PROJECT_NAME} 
-	src/App.cpp 
 	include/App.h 
 	include/Shader.h 
-	src/Shader.cpp 
 	include/ShaderProgram.h 
-	src/ShaderProgram.cpp 
 	include/VertexBuffer.h 
+	include/IndexBuffer.h 
+	include/Mesh.h 
+	src/App.cpp 
+	src/ShaderProgram.cpp 
+	src/Shader.cpp 
 	src/VertexBuffer.cpp
+	src/IndexBuffer.cpp
+	src/Mesh.cpp
 	"${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c"
 )
 
