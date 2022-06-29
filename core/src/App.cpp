@@ -4,6 +4,12 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+
+#include <assimp/Importer.hpp>      // C++ importer interface
+#include <assimp/scene.h>           // Output data structure
+#include <assimp/postprocess.h>     // Post processing flags
+
+
 App::App(std::string title, uint32_t width, uint32_t height)
 	: m_title(title),
 	m_width(width),
@@ -18,6 +24,25 @@ bool App::Run()
 	const double fpsLimit = 1.0 / 60.0;
     //double lastUpdateTime = 0;  // number of seconds since the last loop
 	double lastFrameTime = 0;   // number of seconds since the last frame
+
+		// Create an instance of the Importer class
+	Assimp::Importer importer;
+
+	// And have it read the given file with some example postprocessing
+	// Usually - if speed is not the most important aspect for you - you'll
+	// probably to request more postprocessing than we do in this example.
+	const aiScene* scene = importer.ReadFile("assets/box.obj",
+		aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_SortByPType);
+
+	// If the import failed, report it
+	if (!scene) {
+		//DoTheErrorLogging(importer.GetErrorString());
+		return false;
+	}
+
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(m_window))

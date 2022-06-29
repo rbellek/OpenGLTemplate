@@ -12,6 +12,8 @@ ${CMAKE_SOURCE_DIR}/vendors/imgui/backends/imgui_impl_glfw.cpp
 ${CMAKE_SOURCE_DIR}/vendors/imgui/backends/imgui_impl_opengl3.cpp
 )
 
-target_include_directories(gui PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glfw/include)
-target_include_directories(gui PUBLIC ${CMAKE_SOURCE_DIR}/vendors/imgui)
-target_include_directories(gui PUBLIC ${CMAKE_SOURCE_DIR}/vendors/imgui/backends)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glfw/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/vendors/imgui)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/vendors/imgui/backends)
+
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
