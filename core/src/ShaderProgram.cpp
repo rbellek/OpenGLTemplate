@@ -1,6 +1,7 @@
 #include "ShaderProgram.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 ShaderProgram::ShaderProgram()
 {
@@ -30,4 +31,9 @@ void ShaderProgram::link() {
 
 void ShaderProgram::use() const {
 	glUseProgram(m_shaderProgram);
+}
+
+void ShaderProgram::setMat4(std::string name, glm::mat4 mat)
+{
+	glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, name.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
 }

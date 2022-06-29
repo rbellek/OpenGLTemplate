@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "Mesh.h"
-
+#include "Camera.h"
 
 App::App(std::string title, uint32_t width, uint32_t height)
 	: m_title(title),
@@ -25,6 +25,8 @@ bool App::Run()
 	Mesh m;
 	m.importFrom("assets/box.obj");
 
+
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(m_window))
 	{
@@ -36,6 +38,7 @@ bool App::Run()
 			/* Render here */
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+			
 			render();
 			m.render();
 

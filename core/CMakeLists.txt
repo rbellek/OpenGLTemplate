@@ -9,12 +9,14 @@ add_library(${PROJECT_NAME}
 	include/VertexBuffer.h 
 	include/IndexBuffer.h 
 	include/Mesh.h 
+	include/Camera.h
 	src/App.cpp 
 	src/ShaderProgram.cpp 
 	src/Shader.cpp 
 	src/VertexBuffer.cpp
 	src/IndexBuffer.cpp
 	src/Mesh.cpp
+	src/Camera.cpp
 	"${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c"
 )
 

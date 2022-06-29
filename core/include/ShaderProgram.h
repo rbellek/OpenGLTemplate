@@ -4,6 +4,8 @@
 
 #include "Shader.h"
 
+#include <glm/mat4x4.hpp>
+
 class ShaderProgram
 {
 public:
@@ -16,6 +18,9 @@ public:
 	void link();
 
 	void use() const;
+
+	void setMat4(std::string name, glm::mat4 mat);
+
 
 private:
 	unsigned int m_shaderProgram;

@@ -25,6 +25,7 @@
 #include "App.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
+#include "Camera.h"
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -44,23 +45,6 @@ float vertices[] = {
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-const char* vertexShaderSource = R"(
-    #version 330 core
-    layout (location = 0) in vec3 aPos;
-    void main()
-    {
-        gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-    }
-)";
-const char* fragmentShaderSource = R"(
-    #version 330 core
-    out vec4 FragColor;
-    void main()
-    {
-       FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-    }
-)";
-
 class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
@@ -70,10 +54,11 @@ public:
 		m_vertexShader.load(R"(
             #version 430 core
             layout (location = 0) in vec3 aPos;
+			uniform mat4 viewProjection;
 
             void main()
             {
-	            gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+	            gl_Position = viewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);
             }
 		)");
 
@@ -94,12 +79,16 @@ public:
 		m_program.attachShader(m_vertexShader);
 		m_program.attachShader(m_fragShader);
 		m_program.link();
+
 	}
 	float rotate = 0.f;
 	ShaderProgram m_program;
 protected:
 	virtual void render() override {
+		Camera cam(SCR_WIDTH, SCR_HEIGHT);
+		cam.lookAt({ 0, 0, -10 }, { 0, 0, 1.f });
         m_program.use();
+		m_program.setMat4("viewProjection", cam.getViewProjectionMatrix());
 	}
 };
 

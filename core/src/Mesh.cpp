@@ -48,7 +48,9 @@ void Mesh::importFrom(std::string file)
 	glGenBuffers(1, &m_ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 	std::vector<unsigned int> indices;
+	m_indexCount = 0;
 	for (int j = 0; j < scene->mMeshes[0]->mNumFaces; j++) {
+		m_indexCount += scene->mMeshes[0]->mFaces[j].mNumIndices;
 		for (int i = 0; i < scene->mMeshes[0]->mFaces[j].mNumIndices; i++)
 			indices.push_back(scene->mMeshes[0]->mFaces[j].mIndices[i]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
@@ -78,7 +80,7 @@ void Mesh::render()
 {
 	glBindVertexArray(m_vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
