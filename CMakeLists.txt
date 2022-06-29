@@ -10,8 +10,6 @@ target_link_libraries(OpenGLTemplate gui)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(${PROJECT_NAME} OpenGLTemplate gui)
-
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 if (CMAKE_GENERATOR MATCHES "Visual Studio")
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS /SUBSYSTEM:CONSOLE)
@@ -82,6 +80,9 @@ target_link_libraries(OpenGLTemplate glu32.lib)
 endif()
 
 set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
-set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE) 
+#set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE) 
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/vendors/assimp")
+
+target_link_libraries(${PROJECT_NAME} OpenGLTemplate gui assimp)
