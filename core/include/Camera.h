@@ -8,7 +8,11 @@ public:
 	Camera(float screenWidth, float screenHeight);
 	void lookAt(glm::vec3 position, glm::vec3 target, glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 getViewProjectionMatrix() const;
+
+	void processInputs(struct GLFWwindow* window);
 private:
+	void process();
+
 	float m_screenWidth;
 	float m_screenHeight;
 	glm::vec3 m_position;

@@ -121,3 +121,8 @@ bool App::init()
 void App::render()
 {
 }
+
+GLFWwindow* App::getWindow() const
+{
+	return m_window;
+}

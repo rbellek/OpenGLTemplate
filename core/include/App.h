@@ -14,6 +14,7 @@ public:
 protected:
 	bool init();
 	virtual void render();
+	GLFWwindow* getWindow() const;
 private:
 	std::string m_title;
 	uint32_t m_width;

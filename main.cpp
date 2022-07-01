@@ -48,7 +48,8 @@ const unsigned int SCR_HEIGHT = 600;
 class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
-		: App(title, width, height) {
+		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT)
+	{
         Shader m_vertexShader = Shader::CreateShader(SHADER_TYPE::VERTEX);
         Shader m_fragShader = Shader::CreateShader(SHADER_TYPE::FRAGMENT);
 		m_vertexShader.load(R"(
@@ -80,15 +81,16 @@ public:
 		m_program.attachShader(m_fragShader);
 		m_program.link();
 
+		m_cam.lookAt({ 0, 0, -10 }, { 0, 0, 1.f });
 	}
 	float rotate = 0.f;
 	ShaderProgram m_program;
+	Camera m_cam;
 protected:
 	virtual void render() override {
-		Camera cam(SCR_WIDTH, SCR_HEIGHT);
-		cam.lookAt({ 0, 0, -10 }, { 0, 0, 1.f });
+		m_cam.processInputs(getWindow());
         m_program.use();
-		m_program.setMat4("viewProjection", cam.getViewProjectionMatrix());
+		m_program.setMat4("viewProjection", m_cam.getViewProjectionMatrix());
 	}
 };
 
