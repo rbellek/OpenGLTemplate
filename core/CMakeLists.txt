@@ -19,7 +19,6 @@ add_library(${PROJECT_NAME}
 	src/Mesh.cpp
 	src/Camera.cpp
 	src/Texture.cpp
-#	"${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c"
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
