@@ -98,6 +98,11 @@ glm::vec3 Camera::getPosition() const
 	return m_position;
 }
 
+void Camera::setPosition(const glm::vec3& position)
+{
+	m_position = position;
+}
+
 void Camera::process()
 {
 	glm::mat4 view(1.0f);

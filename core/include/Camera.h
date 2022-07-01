@@ -11,6 +11,7 @@ public:
 
 	void processInputs(struct GLFWwindow* window);
 	glm::vec3 getPosition() const;
+	void setPosition(const glm::vec3& position);
 private:
 	void process();
 

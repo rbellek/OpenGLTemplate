@@ -10,6 +10,7 @@ add_library(${PROJECT_NAME}
 	include/IndexBuffer.h 
 	include/Mesh.h 
 	include/Camera.h
+	include/Texture.h
 	src/App.cpp 
 	src/ShaderProgram.cpp 
 	src/Shader.cpp 
@@ -17,6 +18,7 @@ add_library(${PROJECT_NAME}
 	src/IndexBuffer.cpp
 	src/Mesh.cpp
 	src/Camera.cpp
+	src/Texture.cpp
 	"${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c"
 )
 
