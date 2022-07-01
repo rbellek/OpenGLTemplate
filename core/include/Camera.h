@@ -10,6 +10,7 @@ public:
 	glm::mat4 getViewProjectionMatrix() const;
 
 	void processInputs(struct GLFWwindow* window);
+	glm::vec3 getPosition() const;
 private:
 	void process();
 

@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
@@ -90,6 +91,11 @@ void Camera::processInputs(GLFWwindow* window)
 	}
 
 	process();
+}
+
+glm::vec3 Camera::getPosition() const
+{
+	return m_position;
 }
 
 void Camera::process()

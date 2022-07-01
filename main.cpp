@@ -35,13 +35,6 @@
 
 unsigned int shaderProgram;
 
-float vertices[] = {
-	-0.5f, -0.5f, 0.0f, // left  
-	 0.5f, -0.5f, 0.0f, // right 
-	 0.0f,  0.5f, 0.0f  // top   
-};
-
-
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -49,7 +42,7 @@ const unsigned int SCR_HEIGHT = 600;
 class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
-		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("simple")
+		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("light")
 	{
 		m_cam.lookAt({ 0, 0, -10 }, { 0, 0, 1.f });
 	}
@@ -60,7 +53,10 @@ protected:
 	virtual void render() override {
 		m_cam.processInputs(getWindow());
         m_program.use();
+		m_program.setVec3("lightPos", glm::vec3(3, 1, -3));
+		m_program.setVec3("lightColor", glm::vec3(0.7, 0.1, .3));
 		m_program.setMat4("viewProjection", m_cam.getViewProjectionMatrix());
+		m_program.setVec3("cameraPos", m_cam.getPosition());
 	}
 };
 

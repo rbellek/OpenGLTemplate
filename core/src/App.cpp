@@ -36,8 +36,8 @@ bool App::Run()
 		if ((now - lastFrameTime) >= fpsLimit)
 		{
 			/* Render here */
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClearColor(0.f, 0.f, 0.f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			render();
 			m.render();
@@ -108,7 +108,7 @@ bool App::init()
     //gluLookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
     //glMatrixMode(GL_MODELVIEW);
 
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 
     // Main loop
 	m_gui.init(m_window);
