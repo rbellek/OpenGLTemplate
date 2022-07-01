@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME}
 	src/Mesh.cpp
 	src/Camera.cpp
 	src/Texture.cpp
-	"${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c"
+#	"${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c"
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -32,4 +32,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/g
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/stb)
 #target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/vendors/glew/include)
 
-target_link_libraries(${PROJECT_NAME} gui assimp glfw ${OpenGL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} gui assimp glfw glad ${OpenGL_LIBRARIES})
