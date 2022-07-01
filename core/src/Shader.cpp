@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <iostream>
+#include <fstream>
 
 std::vector<Shader> Shader::m_shaders;
 
@@ -12,6 +13,16 @@ Shader::Shader(const SHADER_TYPE type) : m_type(type), m_shader(0)
 void Shader::load(std::string code)
 {
 	m_code = code;
+}
+
+void Shader::loadFromFile(std::string fileName)
+{
+	m_code = "";
+	std::ifstream file(fileName);
+	std::string str;
+	while (std::getline(file, str)) {
+		m_code += str + "\n";
+	}
 }
 
 void Shader::compile()

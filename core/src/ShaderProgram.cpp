@@ -5,6 +5,30 @@
 
 ShaderProgram::ShaderProgram()
 {
+	init();
+}
+
+ShaderProgram::ShaderProgram(std::string fileName)
+{
+	const std::string pathPrefix = "assets/shaders/";
+	init();
+
+	Shader vertex = Shader::CreateShader(SHADER_TYPE::VERTEX);
+	vertex.loadFromFile(pathPrefix + fileName + ".vertex");
+	vertex.compile();
+
+	Shader fragment = Shader::CreateShader(SHADER_TYPE::FRAGMENT);
+	fragment.loadFromFile(pathPrefix + fileName + ".fragment");
+	fragment.compile();
+
+	attachShader(vertex);
+	attachShader(fragment);
+
+	link();
+}
+
+void ShaderProgram::init()
+{
 	m_shaderProgram = glCreateProgram();
 }
 

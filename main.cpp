@@ -31,6 +31,7 @@
 #include <glm/ext.hpp>
 
 #include <iostream>
+#include <string>
 
 unsigned int shaderProgram;
 
@@ -48,39 +49,8 @@ const unsigned int SCR_HEIGHT = 600;
 class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
-		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT)
+		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("simple")
 	{
-        Shader m_vertexShader = Shader::CreateShader(SHADER_TYPE::VERTEX);
-        Shader m_fragShader = Shader::CreateShader(SHADER_TYPE::FRAGMENT);
-		m_vertexShader.load(R"(
-            #version 430 core
-            layout (location = 0) in vec3 aPos;
-			uniform mat4 viewProjection;
-
-            void main()
-            {
-	            gl_Position = viewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-            }
-		)");
-
-		m_vertexShader.compile();
-
-		m_fragShader.load(R"(
-            #version 430 core
-			out vec4 FragColor;
-
-			void main()
-			{
-				FragColor = vec4(1.0f, 0.0f, 0.2f, 1.0f);
-			} 
-		)");
-
-		m_fragShader.compile();
-
-		m_program.attachShader(m_vertexShader);
-		m_program.attachShader(m_fragShader);
-		m_program.link();
-
 		m_cam.lookAt({ 0, 0, -10 }, { 0, 0, 1.f });
 	}
 	float rotate = 0.f;

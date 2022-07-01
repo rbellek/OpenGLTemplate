@@ -10,6 +10,7 @@ class ShaderProgram
 {
 public:
 	ShaderProgram();
+	ShaderProgram(std::string fileName);
 
 	~ShaderProgram();
 
@@ -23,6 +24,8 @@ public:
 
 
 private:
+	void init();
+
 	unsigned int m_shaderProgram;
 };
 

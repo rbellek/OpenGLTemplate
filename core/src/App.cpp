@@ -23,7 +23,7 @@ bool App::Run()
 	double lastFrameTime = 0;   // number of seconds since the last frame
 
 	Mesh m;
-	m.importFrom("assets/box.obj");
+	m.importFrom("assets/models/box.obj");
 
 
 

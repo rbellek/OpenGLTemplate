@@ -10,6 +10,7 @@ enum class SHADER_TYPE {
 class Shader {
 public:
 	void load(std::string code);
+	void loadFromFile(std::string fileName);
 	void compile();
 	void use();
 	unsigned int GetShader() const;
