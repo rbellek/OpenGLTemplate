@@ -14,7 +14,7 @@
 #include <vector>
 
 Mesh::Mesh()
-	: m_model(1.0f)
+	: m_model(1.0f), leftBottom(0.0f), rightTop(0.0f)
 {
 
 }
@@ -57,12 +57,21 @@ void Mesh::importFrom(std::string file)
 
 	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	constexpr int count = 6;
+	constexpr int count = 8;
+	
 	std::vector<float> vertices_and_normals(scene->mMeshes[0]->mNumVertices * count);
 	for (int i = 0; i < scene->mMeshes[0]->mNumVertices; i++) {
-		vertices_and_normals[i * count] = scene->mMeshes[0]->mVertices[i].x;
-		vertices_and_normals[i * count + 1] = scene->mMeshes[0]->mVertices[i].y;
-		vertices_and_normals[i * count + 2] = scene->mMeshes[0]->mVertices[i].z;
+		vertices_and_normals[i * count] = scene->mMeshes[0]->mVertices[i].x / 10.f;
+		vertices_and_normals[i * count + 1] = scene->mMeshes[0]->mVertices[i].y / 10.f;
+		vertices_and_normals[i * count + 2] = scene->mMeshes[0]->mVertices[i].z / 10.f;
+
+		leftBottom.x = std::min(leftBottom.x, scene->mMeshes[0]->mVertices[i].x);
+		leftBottom.y = std::min(leftBottom.x, scene->mMeshes[0]->mVertices[i].y);
+		leftBottom.z = std::min(leftBottom.x, scene->mMeshes[0]->mVertices[i].z);
+
+		rightTop.x = std::max(rightTop.x, scene->mMeshes[0]->mVertices[i].x);
+		rightTop.y = std::max(rightTop.x, scene->mMeshes[0]->mVertices[i].y);
+		rightTop.z = std::max(rightTop.x, scene->mMeshes[0]->mVertices[i].z);
 
 		if (scene->mMeshes[0]->HasNormals())
 		{
@@ -70,17 +79,25 @@ void Mesh::importFrom(std::string file)
 			vertices_and_normals[i * count + 4] = scene->mMeshes[0]->mNormals[i].y;
 			vertices_and_normals[i * count + 5] = scene->mMeshes[0]->mNormals[i].z;
 		}
+
+		vertices_and_normals[i * count + 6] = scene->mMeshes[0]->mTextureCoords[0][i].x;
+		vertices_and_normals[i * count + 7] = scene->mMeshes[0]->mTextureCoords[0][i].y;
 	}
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices_and_normals.size(), vertices_and_normals.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * count, 0);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (const void*)(sizeof(float) * 3));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * count, (const void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * count, (const void*)(sizeof(float) * 6));
+	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 }
