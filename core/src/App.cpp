@@ -4,8 +4,6 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "Mesh.h"
-#include "Camera.h"
 
 App::App(std::string title, uint32_t width, uint32_t height)
 	: m_title(title),
@@ -22,10 +20,6 @@ bool App::Run()
     //double lastUpdateTime = 0;  // number of seconds since the last loop
 	double lastFrameTime = 0;   // number of seconds since the last frame
 
-	Mesh m;
-	m.importFrom("assets/models/box.obj");
-
-
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(m_window))
@@ -40,7 +34,6 @@ bool App::Run()
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			render();
-			m.render();
 
 			//vb.draw();
 			//m_gui.render();

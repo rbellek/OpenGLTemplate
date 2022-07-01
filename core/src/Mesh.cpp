@@ -1,4 +1,7 @@
 #include "Mesh.h"
+#include "Mesh.h"
+#include "Mesh.h"
+#include "Mesh.h"
 
 #include <assimp/Importer.hpp>      // C++ importer interface
 #include <assimp/scene.h>           // Output data structure
@@ -6,7 +9,15 @@
 
 #include <glad/glad.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <vector>
+
+Mesh::Mesh()
+	: m_model(1.0f)
+{
+
+}
 
 void Mesh::importFrom(std::string file)
 {
@@ -82,4 +93,29 @@ void Mesh::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+}
+
+void Mesh::translate(glm::vec3 dir)
+{
+	m_model = glm::translate(m_model, dir);
+}
+
+void Mesh::rotate(glm::vec3 dir, float angle)
+{
+	m_model = glm::rotate(m_model, glm::radians(angle), dir);
+}
+
+void Mesh::scale(glm::vec3 dir)
+{
+	m_model = glm::scale(m_model, dir);
+}
+
+glm::mat4 Mesh::getModel() const
+{
+	return m_model;
+}
+
+void Mesh::reset()
+{
+	m_model = glm::mat4(1.0f);
 }

@@ -26,6 +26,7 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
 #include "Camera.h"
+#include "Mesh.h"
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -45,10 +46,14 @@ public:
 		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("light")
 	{
 		m_cam.lookAt({ 0, 0, -10 }, { 0, 0, 1.f });
+		m.importFrom("assets/models/box.obj");
+		light.importFrom("assets/models/box.obj");
 	}
 	float rotate = 0.f;
 	ShaderProgram m_program;
 	Camera m_cam;
+	Mesh m, light;
+
 protected:
 	virtual void render() override {
 		m_cam.processInputs(getWindow());
@@ -57,6 +62,23 @@ protected:
 		m_program.setVec3("lightColor", glm::vec3(0.7, 0.1, .3));
 		m_program.setMat4("viewProjection", m_cam.getViewProjectionMatrix());
 		m_program.setVec3("cameraPos", m_cam.getPosition());
+		static float x = 0.0f;
+		static float t = 0.1f;
+		static float r = 0.0f;
+		
+		m.translate({ x, 0.f, 0.f });
+		m.rotate({ 1.f, 1.0f, 0.f }, r);
+		x += t;
+		r += t * 20;
+		if (x > 5.0f || x < -5.0f) {
+			t = -t;
+		}
+
+		m_program.setMat4("model", m.getModel());
+		m.reset();
+		
+		m.render();
+		light.render();
 	}
 };
 
