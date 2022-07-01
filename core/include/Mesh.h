@@ -16,6 +16,8 @@ public:
 
 	glm::mat4 getModel() const;
 	void reset();
+
+	glm::vec3 leftBottom, rightTop;
 private:
 	unsigned int m_vao;
 	unsigned int m_vbo;

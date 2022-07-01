@@ -20,6 +20,7 @@ public:
 
 	void use() const;
 
+	void setInteger(std::string name, int i);
 	void setVec3(std::string name, glm::vec3 vec);
 	void setMat4(std::string name, glm::mat4 mat);
 

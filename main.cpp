@@ -27,6 +27,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 #include "Mesh.h"
+#include "Texture.h"
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -43,16 +44,22 @@ const unsigned int SCR_HEIGHT = 600;
 class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
-		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("light")
+		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("texture"), m_texture("CarvedTable_Albedo.tga")
 	{
-		m_cam.lookAt({ 0, 0, -10 }, { 0, 0, 1.f });
-		m.importFrom("assets/models/box.obj");
-		light.importFrom("assets/models/box.obj");
+		m.importFrom("assets/models/CarvedTable.obj");
+		glm::vec3 pos(0.0f, 30.0f, -30.f);
+		glm::vec3 dir = glm::normalize(m.rightTop - pos);
+		m_cam.lookAt(pos, dir);
+
+		//glm::vec3 dir = m.leftBottom - m.rightTop;
+		//m_cam.lookAt(m.leftBottom + dir * 3.f, m.leftBottom - dir * 3.f);
+		//light.importFrom("assets/models/box.obj");
 	}
 	float rotate = 0.f;
 	ShaderProgram m_program;
 	Camera m_cam;
 	Mesh m, light;
+	Texture m_texture;
 
 protected:
 	virtual void render() override {
@@ -74,11 +81,14 @@ protected:
 			t = -t;
 		}
 
+		m.reset();
 		m_program.setMat4("model", m.getModel());
 		m.reset();
 		
+		m_program.setInteger("sampler", 0);
+		m_texture.bind();
 		m.render();
-		light.render();
+		//light.render();
 	}
 };
 
