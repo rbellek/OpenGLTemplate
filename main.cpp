@@ -44,10 +44,10 @@ const unsigned int SCR_HEIGHT = 600;
 class CubeApp : public App {
 public:
 	CubeApp(std::string title, uint32_t width, uint32_t height)
-		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("texture"), m_texture("CarvedTable_Albedo.tga")
+		: App(title, width, height), m_cam(SCR_WIDTH, SCR_HEIGHT), m_program("light")//, m_texture("CarvedTable_Albedo.tga")
 	{
-		m.importFrom("assets/models/CarvedTable.obj");
-		glm::vec3 pos(0.0f, 30.0f, -30.f);
+		m.importFrom("assets/models/box.obj");
+		glm::vec3 pos(0.0f, 3.0f, -3.f);
 		glm::vec3 dir = glm::normalize(m.rightTop - pos);
 		m_cam.lookAt(pos, dir);
 
@@ -59,7 +59,7 @@ public:
 	ShaderProgram m_program;
 	Camera m_cam;
 	Mesh m, light;
-	Texture m_texture;
+	//Texture m_texture;
 
 protected:
 	virtual void render() override {
@@ -85,8 +85,8 @@ protected:
 		m_program.setMat4("model", m.getModel());
 		m.reset();
 		
-		m_program.setInteger("sampler", 0);
-		m_texture.bind();
+		//m_program.setInteger("sampler", 0);
+		//m_texture.bind();
 		m.render();
 		//light.render();
 	}
